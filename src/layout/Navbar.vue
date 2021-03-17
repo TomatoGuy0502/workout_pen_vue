@@ -1,27 +1,15 @@
 <template>
   <nav class="navbar">
     <ul class="nav-links">
-      <li
-        data-to="home"
-        :class="{ active: nowPage === 'home' }"
-        @click="changePage"
-      >
+      <router-link to="/" tag="li">
         <i class="fas fa-home"></i>
-      </li>
-      <li
-        data-to="diary"
-        :class="{ active: nowPage === 'diary' }"
-        @click="changePage"
-      >
+      </router-link>
+      <router-link to="/diary" tag="li">
         <i class="fas fa-calendar-alt"></i>
-      </li>
-      <li
-        data-to="profile"
-        :class="{ active: nowPage === 'profile' }"
-        @click="changePage"
-      >
+      </router-link>
+      <router-link to="/profile" tag="li">
         <i class="fas fa-user-circle"></i>
-      </li>
+      </router-link>
     </ul>
   </nav>
 </template>
@@ -30,18 +18,9 @@
 export default {
   name: "Navbar",
   data() {
-    return {
-      nowPage: "home"
-    };
+    return {};
   },
-  methods: {
-    changePage(e) {
-      const toPage = e.currentTarget.dataset.to;
-      document.querySelector(`.${toPage}`).scrollIntoView();
-      if (this.nowPage === toPage) return;
-      this.nowPage = toPage;
-    }
-  }
+  methods: {}
 };
 </script>
 

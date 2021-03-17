@@ -1,23 +1,12 @@
 <template>
   <main>
-    <Home />
-    <Diary />
-    <Profile />
+    <router-view />
   </main>
 </template>
 
 <script>
-import Home from "@/pages/Home.vue";
-import Diary from "@/pages/Diary.vue";
-import Profile from "@/pages/Profile.vue";
-
 export default {
-  name: "Main",
-  components: {
-    Home,
-    Diary,
-    Profile
-  }
+  name: "Main"
 };
 </script>
 
