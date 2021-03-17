@@ -26,7 +26,7 @@
 
 <script>
 import WorkoutDrawer from "@/components/WorkoutDrawer";
-import { db } from "@/db.js";
+import { db } from "@/firebase/db.js";
 
 export default {
   name: "Home",
