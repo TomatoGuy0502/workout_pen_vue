@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+const { Timestamp } = firebase.firestore;
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -16,4 +17,4 @@ const firebaseConfig = {
 const db = firebase.initializeApp(firebaseConfig).firestore();
 const auth = firebase.auth();
 
-export { firebase, auth, db };
+export { firebase, auth, db, Timestamp };

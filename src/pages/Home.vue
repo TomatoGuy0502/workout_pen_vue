@@ -26,7 +26,6 @@
 
 <script>
 import WorkoutDrawer from "@/components/WorkoutDrawer";
-import { db } from "@/firebase/db.js";
 
 export default {
   name: "Home",
@@ -51,11 +50,6 @@ export default {
       this.isTraining = false;
       this.workoutName = "";
     }
-  },
-  firestore: {
-    documents: db.collection(
-      "Users/vfcJGxRkLJNzDYXmB1gc66UCnXh2/Days/2020-07-26/Workouts"
-    )
   }
 };
 </script>

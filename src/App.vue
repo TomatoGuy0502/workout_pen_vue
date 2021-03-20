@@ -2,7 +2,9 @@
   <div id="app" class="container">
     <Header />
     <main>
-      <router-view :user="user" />
+      <keep-alive>
+        <router-view :user="user" />
+      </keep-alive>
     </main>
     <Navbar />
   </div>

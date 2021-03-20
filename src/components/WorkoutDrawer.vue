@@ -14,7 +14,7 @@
             c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
         />
       </svg>
-      <button class="btn btn-primary btn-save-workout">
+      <button class="btn btn-primary btn-save-workout" @click="finishWorkout">
         完成訓練
       </button>
       <h3>訓練中：{{ workoutName }}</h3>
@@ -27,7 +27,7 @@
         <div class="workout-card__body">
           <div
             class="exercise"
-            v-for="(exercise, index) in workoutData.exercises"
+            v-for="(exercise, index) in exercises"
             :key="index"
           >
             <div class="exercise__head">
@@ -110,6 +110,8 @@
 </template>
 
 <script>
+import { auth, db } from "@/firebase/db.js";
+
 export default {
   name: "WorkoutDrawer",
   props: {
@@ -120,11 +122,7 @@ export default {
     return {
       isMinimal: false,
       newExercise: "",
-      workoutData: {
-        name: this.workoutName,
-        time: "",
-        exercises: []
-      },
+      exercises: [],
       newSet: []
     };
   },
@@ -133,7 +131,7 @@ export default {
       this.isMinimal = !this.isMinimal;
     },
     addNewSet(exerciseIndex) {
-      this.workoutData.exercises[exerciseIndex].sets.push({
+      this.exercises[exerciseIndex].sets.push({
         reps: this.newSet[exerciseIndex].reps,
         weight: this.newSet[exerciseIndex].weight
       });
@@ -143,7 +141,7 @@ export default {
       };
     },
     addNewExercise() {
-      this.workoutData.exercises.push({
+      this.exercises.push({
         name: this.newExercise,
         unit: "kg",
         sets: []
@@ -155,22 +153,30 @@ export default {
       this.newExercise = "";
     },
     deleteSet(exerciseIndex, setIndex) {
-      this.workoutData.exercises[exerciseIndex].sets.splice(setIndex, 1);
+      this.exercises[exerciseIndex].sets.splice(setIndex, 1);
     },
     deleteExercise(exerciseIndex) {
-      this.workoutData.exercises.splice(exerciseIndex, 1);
+      this.exercises.splice(exerciseIndex, 1);
       this.newSet.splice(exerciseIndex, 1);
     },
     cancelWorkout() {
       this.$emit("cancel-workout");
       this.isMinimal = false;
       this.newExercise = "";
-      this.workoutData = {
-        name: this.workoutName,
-        time: "",
-        exercises: []
-      };
+      this.exercises.length = 0;
       this.newSet = [];
+    },
+    async finishWorkout() {
+      const date = new Date().toISOString().substr(0, 10);
+      const userid = auth.currentUser.uid;
+      const workoutData = {
+        name: this.workoutName,
+        time: this.startTime,
+        exercises: this.exercises
+      };
+
+      await db.doc(`Users/${userid}/Days/${date}`).set({});
+      db.collection(`Users/${userid}/Days/${date}/Workouts`).add(workoutData);
     }
   }
 };
