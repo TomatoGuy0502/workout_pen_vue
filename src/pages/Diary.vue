@@ -1,5 +1,24 @@
 <template>
-  <div class="page diary"></div>
+  <div class="page diary">
+    <ul>
+      <li v-for="day in days" :key="day" @click="selectedDay = day">
+        {{ day }}
+      </li>
+    </ul>
+    <div>
+      <ul>
+        <li v-for="workout in workouts" :key="workout.time">
+          <h3>{{ workout.name }}</h3>
+          <div v-for="exercise in workout.exercises" :key="exercise.name">
+            <h4>{{ exercise.name }}</h4>
+            <div v-for="(set, index) in exercise.sets" :key="index">
+              {{ set.weight }} - {{ set.reps }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -10,7 +29,9 @@ export default {
   data() {
     return {
       documents: [],
-      test: []
+      test: [],
+      workouts: [],
+      selectedDay: ""
     };
   },
   computed: {
@@ -20,6 +41,19 @@ export default {
   },
   firestore: {
     documents: db.collection("Users/vfcJGxRkLJNzDYXmB1gc66UCnXh2/Days")
+  },
+  watch: {
+    selectedDay: {
+      handler(selectedDay) {
+        console.log(selectedDay);
+        this.$bind(
+          "workouts",
+          db.collection(
+            `Users/vfcJGxRkLJNzDYXmB1gc66UCnXh2/Days/${selectedDay}/Workouts`
+          )
+        );
+      }
+    }
   }
 };
 </script>
