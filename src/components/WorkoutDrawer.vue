@@ -160,6 +160,8 @@ export default {
       this.newSet.splice(exerciseIndex, 1);
     },
     cancelWorkout() {
+      const isLeaving = window.confirm("即將離開訓練，確定嗎？");
+      if (!isLeaving) return;
       this.$emit("cancel-workout");
       this.isMinimal = false;
       this.newExercise = "";
@@ -167,7 +169,10 @@ export default {
       this.newSet = [];
     },
     async finishWorkout() {
-      const date = new Date().toISOString().substr(0, 10);
+      const isFinished = window.confirm("即將完成訓練，確定嗎？");
+      if (!isFinished) return;
+      // const date = new Date().toISOString().substr(0, 10);
+      const date = "2020-03-18";
       const userid = auth.currentUser.uid;
       const workoutData = {
         name: this.workoutName,
