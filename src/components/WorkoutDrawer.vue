@@ -159,20 +159,24 @@ export default {
       this.exercises.splice(exerciseIndex, 1);
       this.newSet.splice(exerciseIndex, 1);
     },
-    cancelWorkout() {
-      const isLeaving = window.confirm("即將離開訓練，確定嗎？");
-      if (!isLeaving) return;
-      this.$emit("cancel-workout");
+    resetWorkout() {
+      this.$emit("reset-workout");
       this.isMinimal = false;
       this.newExercise = "";
       this.exercises.length = 0;
       this.newSet = [];
     },
+    cancelWorkout() {
+      const isLeaving = window.confirm("即將離開訓練，確定嗎？");
+      if (!isLeaving) return;
+      this.resetWorkout();
+    },
     async finishWorkout() {
       const isFinished = window.confirm("即將完成訓練，確定嗎？");
       if (!isFinished) return;
-      // const date = new Date().toISOString().substr(0, 10);
-      const date = "2020-03-18";
+      const date = new Date(+new Date() + 8 * 3600 * 1000)
+        .toISOString()
+        .substr(0, 10);
       const userid = auth.currentUser.uid;
       const workoutData = {
         name: this.workoutName,
@@ -181,7 +185,10 @@ export default {
       };
 
       await db.doc(`Users/${userid}/Days/${date}`).set({});
-      db.collection(`Users/${userid}/Days/${date}/Workouts`).add(workoutData);
+      await db
+        .collection(`Users/${userid}/Days/${date}/Workouts`)
+        .add(workoutData);
+      this.resetWorkout();
     }
   }
 };

@@ -19,7 +19,7 @@
       :workout-name="workoutName"
       :start-time="startTime"
       :class="{ active: isTraining }"
-      @cancel-workout="cancelWorkout"
+      @reset-workout="resetWorkout"
     />
   </div>
 </template>
@@ -44,9 +44,9 @@ export default {
     startWorkout() {
       if (this.isTraining) return;
       this.isTraining = true;
-      this.startTime = new Date().toISOString();
+      this.startTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString();
     },
-    cancelWorkout() {
+    resetWorkout() {
       this.isTraining = false;
       this.workoutName = "";
     }
