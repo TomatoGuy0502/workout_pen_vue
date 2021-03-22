@@ -9,11 +9,9 @@
         required
         :disabled="isTraining"
       />
-      <input
-        class="btn btn-primary new-workout-form__add"
-        type="submit"
-        :value="isTraining ? '訓練中' : '開始新的訓練'"
-      />
+      <button class="btn btn-primary new-workout-form__add" type="submit">
+        {{ isTraining ? "訓練中" : "開始新的訓練" }}
+      </button>
     </form>
     <WorkoutDrawer
       :workout-name="workoutName"

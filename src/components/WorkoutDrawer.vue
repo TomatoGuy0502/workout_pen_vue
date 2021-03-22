@@ -100,7 +100,7 @@
           required
           v-model="newExercise"
         />
-        <input class="btn btn-primary" type="submit" value="加入" />
+        <button class="btn btn-primary" type="submit">加入</button>
       </form>
       <button class="btn btn-warning btn-cancel-workout" @click="cancelWorkout">
         取消本次訓練
@@ -260,7 +260,7 @@ export default {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.new-exercise-form input[type="submit"] {
+.new-exercise-form button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   line-height: 20px;
