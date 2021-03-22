@@ -189,6 +189,7 @@ export default {
         .collection(`Users/${userid}/Days/${date}/Workouts`)
         .add(workoutData);
       this.resetWorkout();
+      this.$router.push({ name: "Diary" });
     }
   }
 };

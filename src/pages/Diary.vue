@@ -18,41 +18,33 @@ export default {
   name: "Diary",
   data() {
     return {
-      documents: [],
-      test: [],
       workouts: [],
-      selectedDate: new Date(+new Date() + 8 * 3600 * 1000)
-        .toISOString()
-        .substr(0, 10)
+      selectedDate: ""
     };
   },
   components: {
     WorkoutCard,
     Calendar
   },
+  created() {
+    this.selectedDate = new Date(+new Date() + 8 * 3600 * 1000)
+      .toISOString()
+      .substr(0, 10);
+  },
+  computed: {
+    dbStr() {
+      return `Users/${this.$attrs.user.uid}/Days/${this.selectedDate}/Workouts`;
+    }
+  },
   methods: {
     selectDate(dateStr) {
       this.selectedDate = dateStr;
     }
   },
-  computed: {
-    days() {
-      return this.documents.map(doc => doc.id);
-    }
-  },
-  firestore: {
-    documents: db.collection("Users/vfcJGxRkLJNzDYXmB1gc66UCnXh2/Days")
-  },
   watch: {
-    selectedDate: {
-      immediate: true,
-      handler(selectedDate) {
-        this.$bind(
-          "workouts",
-          db.collection(
-            `Users/vfcJGxRkLJNzDYXmB1gc66UCnXh2/Days/${selectedDate}/Workouts`
-          )
-        );
+    dbStr: {
+      handler(dbStr) {
+        this.$bind("workouts", db.collection(dbStr));
       }
     }
   }

@@ -79,11 +79,11 @@ export default {
   cursor: pointer;
   transition: all var(--transition-duration);
 }
-.nav-links li.active {
+.nav-links li.router-link-exact-active {
   background-color: var(--primary-color);
   color: #fff;
 }
-.nav-links li:hover:not(.active) {
+.nav-links li:hover:not(.router-link-exact-active) {
   background-color: var(--secondary-color);
   color: #fff;
 }
